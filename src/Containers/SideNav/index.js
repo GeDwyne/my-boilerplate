@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import { mailFolderListItems, otherMailFolderListItems } from './tileData';
+import { mailFolderListItems, otherMailFolderListItems, dashboardNavListItems } from './tileData';
 import { connect } from 'react-redux'
 import { openSideNav, closeSideNav } from '../../State/Actions'
 import { bindActionCreators } from 'redux';
@@ -66,6 +66,8 @@ class SideNav extends React.Component {
             onMouseLeave={this.handleDrawerClose}
             open={this.state.open}
           >
+            <Divider />
+            <List>{dashboardNavListItems}</List>
             <Divider />
             <List>{mailFolderListItems}</List>
             <Divider />

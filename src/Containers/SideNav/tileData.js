@@ -9,6 +9,29 @@ import SendIcon from '@material-ui/icons/Send';
 import MailIcon from '@material-ui/icons/Mail';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ReportIcon from '@material-ui/icons/Report';
+import { Link } from 'react-router-dom';
+
+
+export const dashboardNavListItems = (
+  <div>
+    <Link to="/Test">
+      <ListItem button>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Test Uno" />
+      </ListItem>
+    </Link>
+    <Link to="/Test2">
+      <ListItem button>
+          <ListItemIcon>
+            <StarIcon />
+          </ListItemIcon>
+          <ListItemText primary="Test Dos" />
+      </ListItem>
+    </Link>
+  </div>
+);
 
 export const mailFolderListItems = (
   <div>

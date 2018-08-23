@@ -24,7 +24,15 @@ export const closeSideNav = () => ({
 })
 
 export const forceOpenSideNav = () => ({
-    type: 'FORCE_OPEN_SIDENAV'
+  type: 'FORCE_OPEN_SIDENAV'
+})
+
+export const logIn = () => ({
+  type: 'LOG_IN'
+})
+
+export const logOut = () => ({
+  type: 'LOG_OUT'
 })
 
 export const VisibilityFilters = {

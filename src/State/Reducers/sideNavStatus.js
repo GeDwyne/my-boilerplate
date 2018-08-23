@@ -16,9 +16,7 @@ const sideNavStatus = (state = [], action) => {
             force: true
           }
       default:
-        return {
-          open: false
-        }
+        return state;
     }
   }
   

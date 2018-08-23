@@ -3,13 +3,18 @@ import { withStyles } from '@material-ui/core/styles';
 import SideNav from '../Containers/SideNav';
 import MainAppBar from '../Containers/MainAppBar';
 // import styles from './styles/styles'
-import { connect } from 'react-redux'
-import { openSideNav, closeSideNav } from '../State/Actions'
+import { connect } from 'react-redux';
+import { openSideNav, closeSideNav } from '../State/Actions';
 import { bindActionCreators } from 'redux';
-import logo from './logo.svg';
+import { withRouter } from 'react-router-dom';
+import { Test, Test2 } from '../Pages';
+import {
+  Route,
+  Redirect
+} from 'react-router-dom';
+
 
 const drawerWidth = 240;
-const drawerHeight = 1000;
 
 const styles = theme => ({
     root: {
@@ -126,45 +131,48 @@ class Base extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+          redirectToReferrer: false
+        };
     
-        // this.handleDrawerOpen = this.handleDrawerOpen.bind(this);
     }
 
     render() {
-        const { classes, theme, sideNavStatus  } = this.props;
+      const { classes, theme, sideNavStatus, title, logInStatus, match, location  } = this.props;
+
+      console.log("KABOOMSHI!: ", match);
       return (
         <div>
-            <MainAppBar title="Dashboard With Redux and Some Awesome Pseudo-Material Stylings"/>
-            <div className={(sideNavStatus.open && !sideNavStatus.force)? classes.rootOpen : classes.root}>
-                <SideNav />
-                {/* DEFINE ROUTES/PAGES HERE */}
-                <div className={(sideNavStatus.open && !sideNavStatus.force)? classes.overlayOpen : classes.overlay}></div>
-                <main className={(sideNavStatus.open && !sideNavStatus.force)? classes.contentOpen : classes.content}>
-                    <header className="App-header">
-                        <img src={logo} className="App-logo" alt="logo" />
-                        <h1 className="App-title">Welcome to React</h1>
-                    </header>
-                    <p className="App-intro">
-                        To get started, edit <code>src/App.js</code> and save to reload.
-                    </p>
-                </main>
-            </div>
+          <div>
+              <MainAppBar title={title}/>
+              <div className={(sideNavStatus.open && !sideNavStatus.force)? classes.rootOpen : classes.root}>
+                  <SideNav />
+                  <div className={(sideNavStatus.open && !sideNavStatus.force)? classes.overlayOpen : classes.overlay}></div>
+                  <main className={(sideNavStatus.open && !sideNavStatus.force)? classes.contentOpen : classes.content}>
+                    <Route exact path="/Test" component={Test}/>
+                    <Route exact path="/Test2" component={Test2}/>
+                    {/* <Redirect from="/" to="/Test" /> */}
+                  </main>
+              </div>
+          </div>
         </div>
       );
     }
 }
 
 
-const mapStateToProps = state => ({
-    sideNavStatus: state.sideNavStatus
-  })
+  const mapStateToProps = state => {
+    const { sideNavStatus, logInStatus } = state;
+    return { sideNavStatus };
+  }
   
   function mapDispatchToProps(dispatch) {
     return bindActionCreators({ openSideNav, closeSideNav }, dispatch);
   }
   
-  export default connect(
+  
+export default withRouter(
+  connect(
     mapStateToProps,
     mapDispatchToProps
-  )(withStyles(styles)(Base));
+  )(withStyles(styles)(Base)));

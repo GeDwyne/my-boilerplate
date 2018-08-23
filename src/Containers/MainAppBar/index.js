@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { Menu as MenuIcon, AccountCircle } from '@material-ui/icons';
 import { connect } from 'react-redux'
-import { forceOpenSideNav, closeSideNav } from '../../State/Actions'
+import { forceOpenSideNav, closeSideNav, logOut } from '../../State/Actions'
 import { bindActionCreators } from 'redux';
 
 class MainAppBar extends Component {
@@ -27,7 +27,8 @@ class MainAppBar extends Component {
 
         this.handleMenu = this.handleMenu.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.handleSideNavToggle = this.handleSideNavToggle.bind(this);
+        this.handleSideNavModeToggle = this.handleSideNavModeToggle.bind(this);
+        this.handleLogOut = this.handleLogOut.bind(this);
     }
 
     
@@ -39,13 +40,16 @@ class MainAppBar extends Component {
         this.setState({ anchorEl: null });
     };
     
-    handleSideNavToggle() {
+    handleSideNavModeToggle() {
         if (this.props.sideNavStatus.open)
             this.props.closeSideNav();
         else
             this.props.forceOpenSideNav();
     };
 
+    handleLogOut() {
+        this.props.logOut();
+    }
 
     render() {
         
@@ -57,8 +61,8 @@ class MainAppBar extends Component {
             <div className={classes.root}>
                 <AppBar position="static">
                     <Toolbar>
-                        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-                            <MenuIcon onClick={ this.handleSideNavToggle }/>
+                        <IconButton className={classes.menuButton} color="inherit" aria-label="Menu" onClick={ this.handleSideNavModeToggle }>
+                            <MenuIcon />
                         </IconButton>
                         <Typography variant="title" color="inherit" className={classes.flex}>
                             {title}
@@ -88,7 +92,7 @@ class MainAppBar extends Component {
                                     onClose={this.handleClose}
                                     >
                                     <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                                    <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                                    <MenuItem onClick={this.handleLogOut}>Log Out</MenuItem>
                                 </Menu>
                             </div>
                         )}
@@ -108,7 +112,7 @@ const mapStateToProps = state => ({
   })
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ forceOpenSideNav, closeSideNav }, dispatch);
+    return bindActionCreators({ forceOpenSideNav, closeSideNav, logOut }, dispatch);
   }
   
 export default connect(
