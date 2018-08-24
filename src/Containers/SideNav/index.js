@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -54,7 +54,7 @@ class SideNav extends React.Component {
     };
 
     render() {
-      const { classes, theme, sideNavStatus  } = this.props;
+      const { classes, sideNavStatus  } = this.props;
       return (
         <div>
           <Drawer

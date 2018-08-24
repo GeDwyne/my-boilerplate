@@ -23,21 +23,6 @@ class App extends Component {
     
     const { title, logInStatus } = this.props;
 
-    const PrivateRoute = ({ component: Component, ...rest }) => (
-      <Route
-        {...rest}
-        
-      />
-    );
-
-    // if (this.state.redirectToReferrer && from) {
-    //   // this.setState({redirectToReferrer: false})
-    //   console.log("FROM: ", from);
-    //   return <Redirect to={from} />;
-    // }
-    
-    console.log(this.props);
-
     return (
       <div id="outer-container" className="App">
         <CssBaseline />
@@ -46,7 +31,7 @@ class App extends Component {
           <Route path="/" render={
             (props) =>
               (logInStatus.isLoggedIn)? 
-              (<Base />) : 
+              (<Base title={title}/>) : 
               (
                 <Redirect
                   to="/login"

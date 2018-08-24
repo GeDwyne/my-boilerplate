@@ -1,48 +1,25 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { logIn } from '../../State/Actions';
-import { bindActionCreators } from 'redux';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
-import {
-  Redirect
-} from 'react-router-dom';
+import { LogInSection } from '../../Containers';
+
 class LogIn extends React.Component {
     
     constructor(props) {
         super(props);
 
         this.state = {};
-    
-        this.handleLogIn = this.handleLogIn.bind(this);
-    }
-
-    handleLogIn = () => {
-      this.props.logIn();
-      this.props.history.push('/');
     }
 
     render() {
         console.log("LOGIN PROPS: ", this.props);   
+        const { history } = this.props;
+        
         return (
-            <div onClick={this.handleLogIn}>
-                LOG IN
+            <div style={{height: '100vh'}}>
+                <LogInSection history={history} />
             </div>
         );
     }
 }
-
-
-  const mapStateToProps = state => {
-    const { logInStatus } = state;
-    return { logInStatus };
-  }
   
-  function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ logIn }, dispatch);
-  }
-  
-  export default withRouter(
-    connect(
-      mapStateToProps,
-      mapDispatchToProps
-    )(LogIn));
+  export default withRouter(LogIn);
