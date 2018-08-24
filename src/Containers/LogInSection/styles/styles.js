@@ -5,6 +5,6 @@ export default {
       },
     gridContainer: {
         height: '100%',
-        backgroundColor: '#3f51b5'
+        // backgroundColor: '#3f51b5'
     }
 }
