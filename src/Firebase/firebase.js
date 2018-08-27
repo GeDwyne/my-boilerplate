@@ -1,6 +1,4 @@
 import firebase from 'firebase';
-require('firebase/firestore');
-require("firebase/functions");
 
 var config = {
 apiKey: "AIzaSyCoStWpbcRjQGy_PPMvhU8VsC3jvfuoADM",
@@ -12,14 +10,8 @@ messagingSenderId: "414966053777"
 };
 firebase.initializeApp(config);
 
-// var config = {
-// apiKey: "AIzaSyBZIMeK5f7DNKoLXPC1GrwXM7XDdSNTYMQ",
-// authDomain: "iticketfirestore.firebaseapp.com",
-// databaseURL: "https://iticketfirestore.firebaseio.com",
-// projectId: "iticketfirestore",
-// storageBucket: "iticketfirestore.appspot.com",
-// messagingSenderId: "780840714978"
-// };
-// firebase.initializeApp(config);
+const firestore = firebase.firestore();
+const settings = {timestampsInSnapshots: true};
+firestore.settings(settings);
 
-export const db = firebase.firestore();
+export const db = firestore;

@@ -11,7 +11,6 @@ class LogIn extends React.Component {
     }
 
     render() {
-        console.log("LOGIN PROPS: ", this.props);   
         const { history } = this.props;
         
         return (

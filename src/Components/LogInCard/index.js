@@ -13,7 +13,9 @@ import {
     Input,
     InputLabel,
     InputAdornment,
-    Button
+    Button,
+    CircularProgress,
+    Typography
 } from '@material-ui/core';
 // import {
 //   CSSTransition,
@@ -29,8 +31,10 @@ class LogInCard extends Component {
         super(props);
 
         this.state = {
+                        inputEmail: '',
                         inputEmailLabel: 'Username/Email',
                         inputPasswordLabel: 'Password',
+                        inputPassword: '',
                         inputEmailError: false,
                         inputPasswordError: false
                     };
@@ -52,81 +56,93 @@ class LogInCard extends Component {
                 this.setState({
                                 inputEmailLabel: 'Username/Email',
                                 inputEmailError: false,
+                                inputEmail: value
                             });
 
             }
         }
-    }, 1000)
+    }, 500)
 
     render() {
         
-        const { classes, handleLogIn } = this.props;
-        const { inputEmailLabel, inputEmailError, inputPasswordLabel, inputPasswordError } = this.state;
+        const { classes, handleLogIn, logInLoading, logInMessage } = this.props;
+        const { inputEmail, inputEmailLabel, inputEmailError, inputPassword, inputPasswordLabel, inputPasswordError } = this.state;
+
+        function LogInControls() {
+            if (logInLoading === true) {
+                return (
+                    <div className={classes.controls}>
+                        <CircularProgress className={classes.progress} />
+                    </div>
+                )
+            }
+            else {
+                return (
+                    <div className={classes.controls}>
+                        <Button color="secondary" className={classes.button}>
+                            Register
+                        </Button>
+                        <Button variant="contained" color="primary" className={classes.button} type="submit" onClick={() => handleLogIn(inputEmail, inputPassword)}>
+                            LogIn
+                        </Button>
+                    </div>
+                )
+            }
+        }
 
         return (
             <Grid item>
-                {/* <TransitionGroup className="test">
-                    <CSSTransition
-                        key="t3oil"
-                        timeout={500}
-                        classNames="fade"
-                    > */}
-                        <Card className={classes.card}>
-                            <Grid container justify='space-between' alignItems="center">
-                                <Grid item>
-                                    <div className={classes.details}>
-                                        <CardContent className={classes.content}>
-                                            <form autoComplete="on">        
-                                                <FormControl className={classes.margin}>
-                                                    <InputLabel htmlFor="username-input" error={inputEmailError}>{inputEmailLabel}</InputLabel>
-                                                    <Input
-                                                        type="email"
-                                                        id="username-input"
-                                                        onChange={(event) => this.validate(event.target.value, 'email')}
-                                                        error={inputEmailError}
-                                                        startAdornment={
-                                                            <InputAdornment position="start" className={classes.inputAdornment}>
-                                                                <AccountCircle />
-                                                            </InputAdornment>
-                                                        }
-                                                    />
-                                                </FormControl>
-                                                <FormControl className={classes.margin}>
-                                                    <InputLabel htmlFor="password-input">{inputPasswordLabel}</InputLabel>
-                                                    <Input
-                                                        type="password"
-                                                        id="password-input"
-                                                        error={inputPasswordError}
-                                                        startAdornment={
-                                                            <InputAdornment position="start" className={classes.inputAdornment}>
-                                                                <Lock />
-                                                            </InputAdornment>
-                                                        }
-                                                    />
-                                                </FormControl>
-                                            </form>
-                                        </CardContent>
-                                        <div className={classes.controls}>
-                                            <Button color="secondary" className={classes.button}>
-                                                Register
-                                            </Button>
-                                            <Button variant="contained" color="primary" className={classes.button} onClick={handleLogIn}>
-                                                LogIn
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </Grid>
-                                <Grid item>
-                                    <CardMedia
-                                        className={classes.cover}
-                                        image="http://marketline.com/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png"
-                                        title="Live from space album cover"
-                                    />
-                                </Grid>
-                            </Grid>
-                        </Card>   
-                    {/* </CSSTransition>
-                </TransitionGroup> */}
+                <Card className={classes.card}>
+                    <Grid container justify='space-between' alignItems="center">
+                        <Grid item>
+                            <div className={classes.details}>
+                                <CardContent className={classes.content}>
+                                    <form autoComplete="on">        
+                                        <FormControl className={classes.margin}>
+                                            <InputLabel htmlFor="username-input" error={inputEmailError}>{inputEmailLabel}</InputLabel>
+                                            <Input
+                                                type="email"
+                                                id="username-input"
+                                                onChange={(event) => this.validate(event.target.value, 'email')}
+                                                error={inputEmailError}
+                                                startAdornment={
+                                                    <InputAdornment position="start" className={classes.inputAdornment}>
+                                                        <AccountCircle />
+                                                    </InputAdornment>
+                                                }
+                                            />
+                                        </FormControl>
+                                        <FormControl className={classes.margin}>
+                                            <InputLabel htmlFor="password-input">{inputPasswordLabel}</InputLabel>
+                                            <Input
+                                                type="password"
+                                                id="password-input"
+                                                onChange={(event) => this.setState({ inputPassword: event.target.value})}
+                                                error={inputPasswordError}
+                                                startAdornment={
+                                                    <InputAdornment position="start" className={classes.inputAdornment}>
+                                                        <Lock />
+                                                    </InputAdornment>
+                                                }
+                                            />
+                                        </FormControl>
+                                        <Typography variant="caption" gutterBottom align="center">
+                                            {logInMessage}
+                                        </Typography>
+                                        <LogInControls />
+                                    </form>
+                                </CardContent>
+                            </div>
+                        </Grid>
+                        <Grid item>
+                            <CardMedia
+                                className={classes.cover}
+                                image="http://marketline.com/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png"
+                                title="Profile Pic"
+                            />
+                        </Grid>
+                    </Grid>
+                </Card>   
             </Grid>
         );
     }

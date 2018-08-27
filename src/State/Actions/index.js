@@ -35,6 +35,11 @@ export const logOut = () => ({
   type: 'LOG_OUT'
 })
 
+export const updateEventsList = (eventsList) => ({
+  type: 'UPDATE_EVENTS_LIST',
+  eventsList: eventsList
+})
+
 export const VisibilityFilters = {
   SHOW_ALL: 'SHOW_ALL',
   SHOW_COMPLETED: 'SHOW_COMPLETED',

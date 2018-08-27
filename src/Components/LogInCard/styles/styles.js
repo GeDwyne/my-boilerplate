@@ -11,18 +11,14 @@ export default (theme) => ({
         flex: '1 0 auto',
     },
     cover: {
-        width: 300,
-        height: 300,
+        width: 220,
+        height: 220,
     },
     controls: {
-        display: 'flex',
+        // display: 'flex',
         alignItems: 'center',
         paddingLeft: theme.spacing.unit,
         paddingBottom: theme.spacing.unit,
-    },
-    playIcon: {
-        height: 38,
-        width: 38,
     },
     textField: {
       marginLeft: theme.spacing.unit,
@@ -41,5 +37,8 @@ export default (theme) => ({
     },
     input: {
       display: 'none',
+    },
+    progress: {
+      margin: theme.spacing.unit * 2,
     },
 });
