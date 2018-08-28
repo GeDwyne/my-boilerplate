@@ -5,7 +5,6 @@ export default (theme) => ({
     
     root: {
         flexGrow: 0,
-        height: 430,
         zIndex: 1,
         overflow: 'hidden',
         position: 'relative',
@@ -15,7 +14,6 @@ export default (theme) => ({
     },
     rootOpen: {
         flexGrow: 0,
-        height: 430,
         zIndex: 1,
         position: 'relative',
         display: 'flex',

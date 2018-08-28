@@ -9,5 +9,8 @@ export default (theme) => ({
     tableWrapper: {
       overflowX: 'auto',
     },
+    noResultTypo: {
+      textAlign: 'center'
+    }
 });
   

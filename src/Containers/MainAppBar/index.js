@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import styles from "./styles/styles.js";
 import PropTypes from 'prop-types';
@@ -11,9 +12,13 @@ import {
     IconButton
 } from '@material-ui/core';
 import { Menu as MenuIcon, AccountCircle } from '@material-ui/icons';
-import { connect } from 'react-redux'
-import { forceOpenSideNav, closeSideNav, logOut } from '../../State/Actions'
+import { connect } from 'react-redux';
+import { forceOpenSideNav, closeSideNav, logOut, clearEventsList, searchForTerm } from '../../State/Actions';
+import { SearchBar } from '../../Components';
 import { bindActionCreators } from 'redux';
+
+
+const localStyles = theme => styles(theme);
 
 class MainAppBar extends Component {
     
@@ -29,6 +34,7 @@ class MainAppBar extends Component {
         this.handleClose = this.handleClose.bind(this);
         this.handleSideNavModeToggle = this.handleSideNavModeToggle.bind(this);
         this.handleLogOut = this.handleLogOut.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     
@@ -49,7 +55,13 @@ class MainAppBar extends Component {
 
     handleLogOut() {
         this.props.logOut();
+        this.props.clearEventsList();
     }
+
+
+    handleSearch = _.debounce((value) => {
+        this.props.searchForTerm(value);
+    }, 300)
 
     render() {
         
@@ -67,6 +79,7 @@ class MainAppBar extends Component {
                         <Typography variant="title" color="inherit" className={classes.flex}>
                             {title}
                         </Typography>
+                        <SearchBar placeholder='Search for an Event...' handleSearch={this.handleSearch}/>
                         { auth && (
                             <div>
                                 <IconButton
@@ -112,10 +125,14 @@ const mapStateToProps = state => ({
   })
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ forceOpenSideNav, closeSideNav, logOut }, dispatch);
+    return bindActionCreators({ forceOpenSideNav, 
+                                closeSideNav, 
+                                logOut, 
+                                clearEventsList,
+                                searchForTerm }, dispatch);
   }
   
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(MainAppBar));
+)(withStyles(localStyles)(MainAppBar));

@@ -1,4 +1,4 @@
-export default {
+export default (theme) => ({
     root: {
         flexGrow: 1,
     },
@@ -10,4 +10,4 @@ export default {
         marginLeft: -12,
         marginRight: 20,
     },
-}
+});

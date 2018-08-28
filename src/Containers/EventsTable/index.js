@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { updateEventsList } from '../../State/Actions/index.js';
 import { bindActionCreators } from 'redux';
-import { Grid } from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 import { DashboardTable } from '../../Components';
 import { db } from '../../Firebase/firebase.js';
 
@@ -15,8 +15,6 @@ class EventsTable extends Component {
         super(props);
 
         this.state = {};
-
-        // this.handleLogIn = this.handleLogIn.bind(this);
     }
 
     componentWillMount() {
@@ -31,15 +29,22 @@ class EventsTable extends Component {
     }
 
     render() {
+        const { classes, eventsList, searchTerm } = this.props;
 
-        const { classes, eventsList } = this.props;
-
-        return (
-            <div className={classes.root}>
-                {/* {eventsList} */}
-                <DashboardTable eventsList={eventsList}/>
-            </div>
-        );
+        if (!eventsList.data) {
+            return (
+                <div className={classes.root}>
+                    <CircularProgress className={classes.progress} color="secondary" />
+                </div>
+            );
+        }
+        else {
+            return (
+                <div className={classes.root}>
+                    <DashboardTable data={eventsList.data} type={eventsList.type} searchTerm={searchTerm}/>
+                </div>
+            );
+        }
     }
 }
 
@@ -49,8 +54,8 @@ EventsTable.propTypes = {
 };
 
 const mapStateToProps = state => {
-    const { eventsList } = state;
-    return { eventsList };
+    const { eventsList, searchTerm } = state;
+    return { eventsList, searchTerm };
 }
 
 function mapDispatchToProps(dispatch) {

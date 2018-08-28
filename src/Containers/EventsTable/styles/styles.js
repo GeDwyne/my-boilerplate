@@ -1,7 +1,8 @@
 export default {
     root: {
         flexGrow: 1,
-        height: '100%'
+        height: '100%',
+        padding: '20px'
       },
     gridContainer: {
         height: '100%',

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { openSideNav, closeSideNav } from '../State/Actions';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Test, Test2 } from '../Pages';
+import { Events, Test2 } from '../Pages';
 import {
   Route,
   Redirect,
@@ -38,9 +38,9 @@ class Base extends React.Component {
                   <div className={(sideNavStatus.open && !sideNavStatus.force)? classes.overlayOpen : classes.overlay}></div>
                   <main className={(sideNavStatus.open && !sideNavStatus.force)? classes.contentOpen : classes.content}>
                     <Switch>
-                      <Route exact path="/Test" component={Test}/>
+                      <Route exact path="/events" component={Events}/>
                       <Route exact path="/Test2" component={Test2}/>
-                      <Redirect from="/" to="/Test" />
+                      <Redirect from="/" to="/events" />
                     </Switch>
                   </main>
               </div>

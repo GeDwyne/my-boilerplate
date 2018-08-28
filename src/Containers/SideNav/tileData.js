@@ -14,12 +14,12 @@ import { Link } from 'react-router-dom';
 
 export const dashboardNavListItems = (
   <div>
-    <Link to="/Test">
+    <Link to="/events">
       <ListItem button>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary="Test Uno" />
+          <ListItemText primary="Events" />
       </ListItem>
     </Link>
     <Link to="/Test2">

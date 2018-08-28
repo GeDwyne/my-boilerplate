@@ -17,22 +17,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import DeleteIcon from "@material-ui/icons/Delete";
-import FilterListIcon from "@material-ui/icons/FilterList";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import { lighten } from "@material-ui/core/styles/colorManipulator";
-
-function createData(type, data) {
-  switch (type) {
-    case "events":
-      return {
-        id: data.id,
-        name: data.name,
-        startDate: data.startDate,
-        endDate: data.endDate
-      };
-      break;
-  }
-  //   return { id: counter, name, calories, fat, carbs, protein };
-}
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -50,19 +36,6 @@ function getSorting(order, orderBy) {
     : (a, b) => -desc(a, b, orderBy);
 }
 
-const rows = [
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: true,
-    label: "Dessert (100g serving)"
-  },
-  { id: "calories", numeric: true, disablePadding: false, label: "Calories" },
-  { id: "fat", numeric: true, disablePadding: false, label: "Fat (g)" },
-  { id: "carbs", numeric: true, disablePadding: false, label: "Carbs (g)" },
-  { id: "protein", numeric: true, disablePadding: false, label: "Protein (g)" }
-];
-
 class DashboardTableHead extends React.Component {
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
@@ -72,23 +45,29 @@ class DashboardTableHead extends React.Component {
       case "events":
         return [
             {
+                id: "id",
+                numeric: true,
+                disablePadding: false,
+                label: "Event Id"
+            },
+            {
                 id: "name",
                 numeric: false,
                 disablePadding: true,
                 label: "Event Name"
             },
             { 
-                id: "startdate", 
+                id: "startDate", 
                 numeric: true, 
                 disablePadding: false, 
                 label: "Start Date" },
             { 
-                id: "enddate", 
+                id: "endDate", 
                 numeric: true, 
                 disablePadding: false, 
                 label: "End Date" },
         ];
-        break;
+        default: return [];
     }
   }
 
@@ -100,7 +79,7 @@ class DashboardTableHead extends React.Component {
       numSelected,
       rowCount
     } = this.props;
-    const rows = this.createRows('events');
+    const rows = this.createRows(this.props.type);
 
     return (
       <TableHead>
@@ -177,7 +156,7 @@ const toolbarStyles = theme => ({
 });
 
 let DashboardTableToolbar = props => {
-  const { numSelected, classes } = props;
+  const { numSelected, classes, title } = props;
 
   return (
     <Toolbar
@@ -192,7 +171,7 @@ let DashboardTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="title" id="tableTitle">
-            Nutrition
+            {title.toUpperCase()}
           </Typography>
         )}
       </div>
@@ -205,9 +184,9 @@ let DashboardTableToolbar = props => {
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="Filter list">
-              <FilterListIcon />
+          <Tooltip title="Add New Event">
+            <IconButton aria-label="Add New Event">
+              <AddCircleOutlineIcon />
             </IconButton>
           </Tooltip>
         )}
@@ -228,7 +207,7 @@ const localStyles = theme => styles(theme);
 class DashboardTable extends React.Component {
   state = {
     order: "asc",
-    orderBy: "calories",
+    orderBy: "id",
     selected: [],
     page: 0,
     rowsPerPage: 5
@@ -247,7 +226,7 @@ class DashboardTable extends React.Component {
 
   handleSelectAllClick = (event, checked) => {
     if (checked) {
-      this.setState(state => ({ selected: this.buildEventsListData(this.props.eventsList).map(n => n.id) }));
+      this.setState(state => ({ selected: this.filterWithSearchTerm(this.props.data, this.props.searchTerm).map(n => n.id) }));
       return;
     }
     this.setState({ selected: [] });
@@ -282,27 +261,32 @@ class DashboardTable extends React.Component {
     this.setState({ rowsPerPage: event.target.value });
   };
 
-  buildEventsListData = eventsList => {
-    return eventsList.map(event => {
-      return createData("events", event);
+  filterWithSearchTerm = (data, searchTerm) => {
+    const filteredEventsList = [];
+    data.map(d => {
+      if (d.name.toLowerCase().includes(searchTerm.toLowerCase())) 
+        filteredEventsList.push(d);
     });
+
+    return filteredEventsList;
   };
 
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes, eventsList } = this.props;
-    const data = this.buildEventsListData(eventsList);
+    const { classes, type, searchTerm } = this.props;
+    const data = this.filterWithSearchTerm(this.props.data, searchTerm);
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
       <Paper className={classes.root}>
-        <DashboardTableToolbar numSelected={selected.length} />
+        <DashboardTableToolbar numSelected={selected.length} title={type} />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <DashboardTableHead
+              type={type}
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
@@ -311,32 +295,43 @@ class DashboardTable extends React.Component {
               rowCount={data.length}
             />
             <TableBody>
-              {data
-                .sort(getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map(n => {
-                  const isSelected = this.isSelected(n.id);
-                  return (
-                    <TableRow
-                      hover
-                      onClick={event => this.handleClick(event, n.id)}
-                      role="checkbox"
-                      aria-checked={isSelected}
-                      tabIndex={-1}
-                      key={n.id}
-                      selected={isSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected} />
-                      </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
-                        {n.name}
-                      </TableCell>
-                      <TableCell numeric>{n.startDate.seconds}</TableCell>
-                      <TableCell numeric>{n.endDate.seconds}</TableCell>
-                    </TableRow>
-                  );
-                })}
+              {
+                (data.length)? 
+                  data
+                  .sort(getSorting(order, orderBy))
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map(n => {
+                    const isSelected = this.isSelected(n.id);
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        aria-checked={isSelected}
+                        tabIndex={-1}
+                        key={n.id}
+                        selected={isSelected}
+                      >
+                        <TableCell 
+                          padding="checkbox"
+                          onClick={event => this.handleClick(event, n.id)}>
+                          <Checkbox checked={isSelected} />
+                        </TableCell>
+                        <TableCell numeric>{n.id}</TableCell>
+                        <TableCell component="th" scope="row" padding="none">
+                          {n.name}
+                        </TableCell>
+                        <TableCell numeric>{n.startDate}</TableCell>
+                        <TableCell numeric>{n.endDate}</TableCell>
+                      </TableRow>
+                    );
+                  })
+                :
+                <TableRow>
+                  <TableCell className={classes.noResultTypo} colSpan={5}>
+                    <Typography variant="subheading" gutterBottom>No events matched your search...</Typography>
+                  </TableCell>
+                </TableRow>
+              }
               {emptyRows > 0 && (
                 <TableRow style={{ height: 49 * emptyRows }}>
                   <TableCell colSpan={6} />

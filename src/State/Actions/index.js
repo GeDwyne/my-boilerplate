@@ -35,9 +35,19 @@ export const logOut = () => ({
   type: 'LOG_OUT'
 })
 
-export const updateEventsList = (eventsList) => ({
+export const updateEventsList = (eventsList, searchTerm) => ({
   type: 'UPDATE_EVENTS_LIST',
   eventsList: eventsList
+})
+
+export const clearEventsList = () => ({
+  type: 'CLEAR_EVENTS_LIST',
+  eventsList: null
+})
+
+export const searchForTerm = (term) => ({
+  type: 'SEARCH_FOR_TERM',
+  term: term
 })
 
 export const VisibilityFilters = {
