@@ -1,3 +1,3 @@
 export { default as Events } from './Events';
-export { default as Test2 } from './Test2';
+export { default as EventSetup } from './EventSetup';
 export { default as LogIn } from './LogIn';

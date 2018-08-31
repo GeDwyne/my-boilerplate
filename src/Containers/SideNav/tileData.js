@@ -22,12 +22,12 @@ export const dashboardNavListItems = (
           <ListItemText primary="Events" />
       </ListItem>
     </Link>
-    <Link to="/Test2">
+    <Link to="/eventsetup">
       <ListItem button>
           <ListItemIcon>
             <StarIcon />
           </ListItemIcon>
-          <ListItemText primary="Test Dos" />
+          <ListItemText primary="Event Setup" />
       </ListItem>
     </Link>
   </div>

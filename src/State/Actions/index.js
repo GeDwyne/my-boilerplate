@@ -27,8 +27,9 @@ export const forceOpenSideNav = () => ({
   type: 'FORCE_OPEN_SIDENAV'
 })
 
-export const logIn = () => ({
-  type: 'LOG_IN'
+export const logIn = (userId) => ({
+  type: 'LOG_IN',
+  userId: userId
 })
 
 export const logOut = () => ({
@@ -48,6 +49,11 @@ export const clearEventsList = () => ({
 export const searchForTerm = (term) => ({
   type: 'SEARCH_FOR_TERM',
   term: term
+})
+
+export const selectEventSetUp = (eventSetUp) => ({
+  type: 'SELECT_EVENT_SETUP',
+  eventSetUp: eventSetUp
 })
 
 export const VisibilityFilters = {

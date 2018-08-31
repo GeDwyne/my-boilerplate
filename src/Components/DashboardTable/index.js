@@ -67,6 +67,21 @@ class DashboardTableHead extends React.Component {
                 disablePadding: false, 
                 label: "End Date" },
         ];
+        case "event setup":
+          return [
+              {
+                  id: "id",
+                  numeric: true,
+                  disablePadding: false,
+                  label: "Event Id"
+              },
+              {
+                  id: "name",
+                  numeric: false,
+                  disablePadding: true,
+                  label: "Event Name"
+              },
+        ];
         default: return [];
     }
   }
@@ -274,7 +289,7 @@ class DashboardTable extends React.Component {
   isSelected = id => this.state.selected.indexOf(id) !== -1;
 
   render() {
-    const { classes, type, searchTerm } = this.props;
+    const { classes, type, searchTerm, selectEventSetUp } = this.props;
     const data = this.filterWithSearchTerm(this.props.data, searchTerm);
     const { order, orderBy, selected, rowsPerPage, page } = this.state;
     const emptyRows =
@@ -302,28 +317,56 @@ class DashboardTable extends React.Component {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map(n => {
                     const isSelected = this.isSelected(n.id);
-                    return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        aria-checked={isSelected}
-                        tabIndex={-1}
-                        key={n.id}
-                        selected={isSelected}
-                      >
-                        <TableCell 
-                          padding="checkbox"
-                          onClick={event => this.handleClick(event, n.id)}>
-                          <Checkbox checked={isSelected} />
-                        </TableCell>
-                        <TableCell numeric>{n.id}</TableCell>
-                        <TableCell component="th" scope="row" padding="none">
-                          {n.name}
-                        </TableCell>
-                        <TableCell numeric>{n.startDate}</TableCell>
-                        <TableCell numeric>{n.endDate}</TableCell>
-                      </TableRow>
-                    );
+                    
+                    switch (type) {
+                      case "events":
+                        return (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            aria-checked={isSelected}
+                            tabIndex={-1}
+                            key={n.id}
+                            selected={isSelected}
+                          >
+                            <TableCell 
+                              padding="checkbox"
+                              onClick={event => this.handleClick(event, n.id)}>
+                              <Checkbox checked={isSelected} />
+                            </TableCell>
+                            <TableCell numeric>{n.id}</TableCell>
+                            <TableCell component="th" scope="row" padding="none">
+                              {n.name}
+                            </TableCell>
+                            <TableCell numeric>{n.startDate}</TableCell>
+                            <TableCell numeric>{n.endDate}</TableCell>
+                          </TableRow>
+                        );
+                      case "event setup":
+                        return (
+                          <TableRow
+                            hover
+                            role="checkbox"
+                            aria-checked={isSelected}
+                            tabIndex={-1}
+                            key={n.id}
+                            selected={isSelected}
+                            onClick={() => selectEventSetUp(n.id)}
+                            className={classes.tableRow}
+                          >
+                            <TableCell 
+                              padding="checkbox"
+                              onClick={event => this.handleClick(event, n.id)}>
+                              <Checkbox checked={isSelected} />
+                            </TableCell>
+                            <TableCell numeric>{n.id}</TableCell>
+                            <TableCell component="th" scope="row" padding="none">
+                              {n.name}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      default: return [];
+                    }
                   })
                 :
                 <TableRow>

@@ -1,11 +1,8 @@
 export default (theme) => ({
+    '::-webkit-input-placeholder': { 
+        color: 'red'
+    },
     margin: {
-        '&:before': {
-            background: 'pink'
-        },
-        '&::-webkit-input-placeholder': {
-            color: 'white'
-        },
         width: '250px',
         margin: theme.spacing.unit,
         display: 'flex',

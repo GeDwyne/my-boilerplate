@@ -5,6 +5,7 @@ import sideNavStatus from './sideNavStatus';
 import logInStatus from './logInStatus';
 import eventsList from './eventsList';
 import searchTerm from './searchTerm';
+import eventSetUp from './eventSetup';
 
 export default combineReducers({
     todos,
@@ -12,5 +13,6 @@ export default combineReducers({
     sideNavStatus,
     logInStatus,
     eventsList,
-    searchTerm
+    searchTerm,
+    eventSetUp,
 })

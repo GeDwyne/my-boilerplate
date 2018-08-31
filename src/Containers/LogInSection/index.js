@@ -48,11 +48,11 @@ class LogInSection extends Component {
                     return;
                 }
 
-                let password = doc.data().password;
+                let data = doc.data();
                 
-                if (password === inputPassword) {
+                if (data.password === inputPassword) {
                     newThis.setState({ logInLoading: false });
-                    logIn();
+                    logIn(data.id);
                     history.push('/');
                 }
                 else {

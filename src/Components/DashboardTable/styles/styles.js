@@ -11,6 +11,9 @@ export default (theme) => ({
     },
     noResultTypo: {
       textAlign: 'center'
+    },
+    tableRow: {
+      cursor: 'pointer'
     }
 });
   

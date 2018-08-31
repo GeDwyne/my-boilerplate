@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { openSideNav, closeSideNav } from '../State/Actions';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Events, Test2 } from '../Pages';
+import { Events,EventSetup } from '../Pages';
 import {
   Route,
   Redirect,
@@ -39,7 +39,7 @@ class Base extends React.Component {
                   <main className={(sideNavStatus.open && !sideNavStatus.force)? classes.contentOpen : classes.content}>
                     <Switch>
                       <Route exact path="/events" component={Events}/>
-                      <Route exact path="/Test2" component={Test2}/>
+                      <Route exact path="/eventsetup" component={EventSetup}/>
                       <Redirect from="/" to="/events" />
                     </Switch>
                   </main>
