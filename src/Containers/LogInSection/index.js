@@ -8,6 +8,7 @@ import { bindActionCreators } from 'redux';
 import { Grid } from '@material-ui/core';
 import { LogInCard } from '../../Components';
 import { db } from '../../Firebase/firebase.js';
+import axios  from 'axios';
 
 class LogInSection extends Component {
     
@@ -65,6 +66,15 @@ class LogInSection extends Component {
             });
     }
 
+    
+    componentDidMount() {
+        axios.get(`http://localhost:5000/api/profile/test`)
+        .then(res => {
+            console.log('FromServer: ', res.data);
+        })
+    }
+    
+
     render() {
 
         const { classes } = this.props;
@@ -97,7 +107,7 @@ const mapStateToProps = state => {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ logIn }, dispatch);
 }
-  
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps)(withStyles(styles, { withTheme: true })(LogInSection));

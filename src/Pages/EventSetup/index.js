@@ -26,24 +26,31 @@ class EventSetup extends React.Component {
     }
 
     render() {
+        
+        var rootStyle = {
+            padding: '20px'
+        }
+
       return (
-        <Grid container>
-        <Grid item md={8}>
-            <EventSetupControlPanel />
-        </Grid>
-        <Grid item md={4}>
-            {/* <div>
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h1 className="App-title">Welcome to React Part 2</h1>
-                </header>
-                <p className="App-intro">
-                    To get started, edit <code>src/App.js</code> and save to reload.
-                </p>
-            </div> */}
-            <EventSetupPreviewPane />
-        </Grid>
-        </Grid>
+        <div style={rootStyle}>
+            <Grid container>
+                <Grid item md={8}>
+                    <EventSetupControlPanel />
+                </Grid>
+                <Grid item md={4}>
+                    {/* <div>
+                        <header className="App-header">
+                            <img src={logo} className="App-logo" alt="logo" />
+                            <h1 className="App-title">Welcome to React Part 2</h1>
+                        </header>
+                        <p className="App-intro">
+                            To get started, edit <code>src/App.js</code> and save to reload.
+                        </p>
+                    </div> */}
+                    <EventSetupPreviewPane />
+                </Grid>
+            </Grid>
+        </div>
       );
     }
 }
